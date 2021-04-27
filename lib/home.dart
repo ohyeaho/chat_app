@@ -34,8 +34,7 @@ class _HomeState extends State<Home> {
               ElevatedButton(
                 child: Text('chat'),
                 onPressed: () {
-                  //todo
-                  // Navigator.pushNamed(context, '/map');
+                  Navigator.pushNamed(context, '/chat_page');
                 },
               ),
             ],
