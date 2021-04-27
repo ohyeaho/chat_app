@@ -68,12 +68,21 @@ class _SignupPageState extends State<SignupPage> {
                     final User user = result.user;
                     setState(() {
                       infoText = '登録OK:${user.email}';
+                      Navigator.pushReplacementNamed(context, "/login_page");
                     });
                   } catch (e) {
                     setState(() {
                       infoText = '登録NG:${e.toString()}';
                     });
                   }
+
+                  // FirebaseAuth.instance
+                  //     .authStateChanges()
+                  //     .listen((User user) {
+                  //   if (user != null) {
+                  //     Navigator.pushReplacementNamed(context, "/home");
+                  //   }
+                  // });
                 },
                 child: Text('登録'),
               ),
