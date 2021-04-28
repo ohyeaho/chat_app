@@ -68,6 +68,17 @@ class ChatPage extends StatelessWidget {
                       child: ListTile(
                         title: Text(document['text']),
                         subtitle: Text(document['email']),
+                        trailing: document['email'] == user.email
+                            ? IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('posts')
+                                      .doc(document.id)
+                                      .delete();
+                                },
+                                icon: Icon(Icons.delete),
+                              )
+                            : null,
                       ),
                     );
                   }).toList(),
