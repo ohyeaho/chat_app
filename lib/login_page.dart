@@ -1,3 +1,4 @@
+import 'package:chat_app/chat_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String loginUserEmail = '';
-  String loginUserPassword = '';
+  String email = '';
+  String password = '';
   String infoText = '';
 
   @override
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onChanged: (String value) {
                   setState(() {
-                    loginUserEmail = value;
+                    email = value;
                   });
                 },
               ),
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 onChanged: (String value) {
                   setState(() {
-                    loginUserPassword = value;
+                    password = value;
                   });
                 },
               ),
@@ -59,20 +60,19 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
-                    final UserCredential result =
-                        await auth.signInWithEmailAndPassword(
-                      email: loginUserEmail,
-                      password: loginUserPassword,
+                    final result = await auth.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
                     );
 
-                    final User user = result.user;
-                    setState(() {
-                      infoText = 'ログインOK:${user.email}';
-                      Navigator.pushReplacementNamed(context, "/chat_page");
-                    });
+                    await Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) {
+                        return ChatPage(result.user);
+                      }),
+                    );
                   } catch (e) {
                     setState(() {
-                      infoText = 'ログインNG:${e.toString()}';
+                      infoText = 'ログインに失敗しました:${e.toString()}';
                     });
                   }
 

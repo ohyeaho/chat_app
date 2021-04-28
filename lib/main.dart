@@ -14,6 +14,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var result;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'chat app',
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Home(),
       routes: {
-        '/chat_page': (context) => ChatPage(),
+        '/chat_page': (context) => ChatPage(result.user),
         '/signup_page': (context) => SignupPage(),
         '/login_page': (context) => LoginPage(),
       },

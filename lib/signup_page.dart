@@ -1,3 +1,4 @@
+import 'package:chat_app/chat_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String newUserEmail = '';
-  String newUserPassword = '';
+  String email = '';
+  String password = '';
   String infoText = '';
 
   @override
@@ -31,7 +32,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 onChanged: (String value) {
                   setState(() {
-                    newUserEmail = value;
+                    email = value;
                   });
                 },
               ),
@@ -48,7 +49,7 @@ class _SignupPageState extends State<SignupPage> {
                 obscureText: true,
                 onChanged: (String value) {
                   setState(() {
-                    newUserPassword = value;
+                    password = value;
                   });
                 },
               ),
@@ -59,20 +60,19 @@ class _SignupPageState extends State<SignupPage> {
                 onPressed: () async {
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
-                    final UserCredential result =
-                        await auth.createUserWithEmailAndPassword(
-                      email: newUserEmail,
-                      password: newUserPassword,
+                    final result = await auth.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
                     );
 
-                    final User user = result.user;
-                    setState(() {
-                      infoText = '登録OK:${user.email}';
-                      Navigator.pushReplacementNamed(context, "/login_page");
-                    });
+                    await Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) {
+                        return ChatPage(result.user);
+                      }),
+                    );
                   } catch (e) {
                     setState(() {
-                      infoText = '登録NG:${e.toString()}';
+                      infoText = '登録に失敗しました:${e.toString()}';
                     });
                   }
 

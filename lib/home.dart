@@ -31,12 +31,12 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, '/signup_page');
                 },
               ),
-              ElevatedButton(
-                child: Text('chat'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/chat_page');
-                },
-              ),
+              // ElevatedButton(
+              //   child: Text('chat'),
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, '/chat_page');
+              //   },
+              // ),
             ],
           ),
         ),
