@@ -54,11 +54,11 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
+              child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
                 .collection('posts')
                 .orderBy('date')
-                .get(),
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final List<DocumentSnapshot> documents = snapshot.data.docs;
