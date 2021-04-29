@@ -1,16 +1,21 @@
 import 'package:chat_app/home.dart';
+import 'package:chat_app/main.dart';
 import 'package:chat_app/post_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatelessWidget {
-  ChatPage(this.user);
+  var user;
 
-  final User user;
+  ChatPage(this.user);
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final User user = userState.user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('chat'),

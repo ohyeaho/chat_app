@@ -2,8 +2,19 @@ import 'package:chat_app/chat_page.dart';
 import 'package:chat_app/home.dart';
 import 'package:chat_app/login_page.dart';
 import 'package:chat_app/signup_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class UserState extends ChangeNotifier {
+  User user;
+
+  void setUser(User newUser) {
+    user = newUser;
+    notifyListeners();
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,21 +23,26 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final UserState userState = UserState();
+
   @override
   Widget build(BuildContext context) {
     var result;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'chat app',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider<UserState>(
+      create: (context) => UserState(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'chat app',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Home(),
+        routes: {
+          '/chat_page': (context) => ChatPage(result.user),
+          '/signup_page': (context) => SignupPage(),
+          '/login_page': (context) => LoginPage(),
+        },
       ),
-      home: Home(),
-      routes: {
-        '/chat_page': (context) => ChatPage(result.user),
-        '/signup_page': (context) => SignupPage(),
-        '/login_page': (context) => LoginPage(),
-      },
     );
   }
 }

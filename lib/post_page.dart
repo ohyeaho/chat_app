@@ -1,10 +1,13 @@
+import 'package:chat_app/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PostPage extends StatefulWidget {
+  var user;
+
   PostPage(this.user);
-  final User user;
 
   @override
   _PostPageState createState() => _PostPageState();
@@ -15,6 +18,9 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+    final User user = userState.user;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('post'),
@@ -42,7 +48,7 @@ class _PostPageState extends State<PostPage> {
                   child: Text('投稿'),
                   onPressed: () async {
                     final date = DateTime.now().toLocal().toIso8601String();
-                    final email = widget.user.email;
+                    final email = user.email;
                     await FirebaseFirestore.instance
                         .collection('posts')
                         .doc()

@@ -1,6 +1,8 @@
 import 'package:chat_app/chat_page.dart';
+import 'package:chat_app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserState userState = Provider.of<UserState>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('ユーザー登録'),
@@ -64,6 +68,8 @@ class _SignupPageState extends State<SignupPage> {
                       email: email,
                       password: password,
                     );
+
+                    userState.setUser(result.user);
 
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
